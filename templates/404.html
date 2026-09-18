@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found | {{ SITE.name }}{% endblock %}
+{% block content %}
+<div class="result-card">
+  <h1 class="section-heading">Page Not Found</h1>
+  <p class="mt-2 text-muted">The page you're looking for doesn't exist or may have moved.</p>
+  <div class="final-cta__actions mt-3" style="justify-content:center;">
+    <a href="{{ url_for('main.home') }}" class="btn btn-primary">Back to Home</a>
+    <a href="{{ url_for('main.shop') }}" class="btn btn-secondary">Shop Hair</a>
+  </div>
+</div>
+{% endblock %}

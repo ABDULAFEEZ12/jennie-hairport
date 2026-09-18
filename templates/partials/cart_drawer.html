@@ -1,0 +1,27 @@
+<div class="drawer-overlay" data-cart-overlay></div>
+<aside class="cart-drawer" data-cart-drawer>
+  <div class="cart-drawer__header">
+    <h3 style="font-size:1.15rem;">Your Bag</h3>
+    <button class="icon-btn" data-close-cart aria-label="Close cart">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <div class="cart-drawer__empty" data-cart-drawer-empty style="display:none;">
+    <p style="font-family:var(--font-display);font-size:1.1rem;color:var(--burgundy-900);">Your bag is empty</p>
+    <p class="text-muted">Browse our collections and add something beautiful.</p>
+    <a href="{{ url_for('main.shop') }}" class="btn btn-primary btn-sm">Shop Hair</a>
+  </div>
+
+  <div class="cart-drawer__items">
+    <ul data-cart-drawer-items></ul>
+  </div>
+
+  <div class="cart-drawer__footer" data-cart-drawer-footer>
+    <div class="summary-row" style="margin-bottom:0.75rem;">
+      <span>Subtotal</span>
+      <span style="font-family:var(--font-display);font-size:1.2rem;color:var(--burgundy-900);" data-cart-drawer-subtotal>&#8358;0</span>
+    </div>
+    <a href="{{ url_for('main.cart') }}" class="btn btn-primary btn-block">View Bag &amp; Checkout</a>
+  </div>
+</aside>

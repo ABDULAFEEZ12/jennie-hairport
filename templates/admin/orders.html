@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+{% block title %}Orders | Admin{% endblock %}
+{% block admin_content %}
+<div class="admin-shell">
+  {% include "partials/admin_sidebar.html" %}
+  <main class="admin-main">
+    <h1 style="font-size:1.4rem;">Orders</h1>
+    <p class="text-muted" style="font-size:0.85rem;margin-bottom:1.5rem;">Orders placed through Squad checkout. Status is confirmed directly with Squad, not just the customer's browser.</p>
+
+    {% if not orders %}
+      <p class="text-muted">No orders yet.</p>
+    {% else %}
+    <div class="orders-list">
+      {% for order in orders %}
+      <div class="order-card">
+        <div class="order-card__head">
+          <p style="font-family:var(--font-display);font-size:1.05rem;">{{ order.reference }}</p>
+          <span class="order-status {{ order.payment_status }}">{{ order.payment_status }}</span>
+        </div>
+        <p class="text-muted" style="font-size:0.78rem;">{{ order.created_at.strftime('%d %b %Y, %H:%M') }} UTC</p>
+        <div class="mt-2" style="font-size:0.9rem;color:var(--ink-700);display:grid;gap:0.25rem;grid-template-columns:1fr 1fr;">
+          <p><span class="text-muted">Customer:</span> {{ order.customer_name }}</p>
+          <p><span class="text-muted">Email:</span> {{ order.email }}</p>
+          <p><span class="text-muted">Phone:</span> {{ order.phone }}</p>
+          <p style="grid-column:span 2;"><span class="text-muted">Location:</span> {{ order.location }}</p>
+          {% if order.notes %}<p style="grid-column:span 2;"><span class="text-muted">Notes:</span> {{ order.notes }}</p>{% endif %}
+        </div>
+        <ul class="mt-2" style="border-top:1px solid var(--cream-200);padding-top:0.75rem;font-size:0.9rem;">
+          {% for item in order.items %}
+          <li style="display:flex;justify-content:space-between;padding:0.2rem 0;">
+            <span>{{ item.name }}{% if item.length %} ({{ item.length }}"){% endif %} &times;{{ item.quantity }}</span>
+            <span>{{ format_naira(item.line_total) }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="mt-2" style="border-top:1px solid var(--cream-200);padding-top:0.75rem;text-align:right;font-weight:700;color:var(--burgundy-800);">
+          Total: {{ format_naira(order.amount) }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </main>
+</div>
+{% endblock %}

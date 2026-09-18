@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Flexible Payment Plans | {{ SITE.name }}{% endblock %}
+{% block description %}Jennie_Hairport offers flexible payment plans so you can get premium Vietnam bone straight hair, wigs and bundles without paying everything upfront.{% endblock %}
+
+{% block content %}
+<div class="container simple-hero">
+  <div class="reveal">
+    <p class="eyebrow">Payment Plans</p>
+    <h1 class="section-heading" style="font-size:clamp(2rem,4vw,2.75rem);">Premium Hair, Flexible Payments</h1>
+    <p class="mt-2" style="max-width:30rem;color:var(--ink-700);">Get the hair you want with flexible payment options designed to make premium quality more accessible. No unrealistic promises — just a straightforward plan worked out directly with our team.</p>
+    <a href="{{ build_whatsapp_link(payment_plan_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Ask About Payment Plans</a>
+  </div>
+  <div class="reveal simple-hero__media"><div class="placeholder-photo ph-2"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+</div>
+
+<section class="section section-tinted">
+  <div class="container">
+    <h2 class="section-heading reveal" style="text-align:center;">How It Works</h2>
+    <div class="steps-grid">
+      <div class="reveal"><span class="n">01</span><p style="font-family:var(--font-display);font-size:1.05rem;margin-top:0.5rem;">Tell us what you want</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">Message us on WhatsApp with the product(s) you're interested in and your budget.</p></div>
+      <div class="reveal"><span class="n">02</span><p style="font-family:var(--font-display);font-size:1.05rem;margin-top:0.5rem;">We agree on a plan</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">We'll work out a payment structure and timeline that works for both sides.</p></div>
+      <div class="reveal"><span class="n">03</span><p style="font-family:var(--font-display);font-size:1.05rem;margin-top:0.5rem;">Pay in instalments</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">Make agreed payments toward your order until it's fully paid for.</p></div>
+      <div class="reveal"><span class="n">04</span><p style="font-family:var(--font-display);font-size:1.05rem;margin-top:0.5rem;">Receive your hair</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">Once payment is complete, your order is processed and prepared for delivery.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section container" style="max-width:42rem;text-align:center;">
+  <div class="reveal">
+    <h2 class="section-heading">Every plan is arranged individually</h2>
+    <p class="mt-2" style="color:var(--ink-700);">Because every customer's budget and timeline is different, we don't use a fixed, one-size-fits-all instalment structure. Reach out on WhatsApp and we'll talk through what's realistic for the products you want.</p>
+    <a href="{{ build_whatsapp_link(payment_plan_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Start the Conversation</a>
+  </div>
+</section>
+{% endblock %}

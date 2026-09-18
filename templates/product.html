@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} | {{ SITE.name }}{% endblock %}
+{% block description %}{{ product.description }}{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.name|tojson }},
+  "description": {{ product.description|tojson }},
+  "category": {{ product.category_label|tojson }},
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "NGN",
+    "price": {{ product.price }},
+    "availability": "{{ 'https://schema.org/InStock' if product.availability else 'https://schema.org/OutOfStock' }}"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{% set payload = {
+  "id": product.id,
+  "slug": product.slug,
+  "name": product.name,
+  "price": product.price,
+  "oldPrice": product.old_price,
+  "image": product.primary_image,
+  "category": product.category_label,
+  "description": product.description,
+  "lengths": product.lengths,
+} %}
+
+<div class="container">
+  <nav class="breadcrumb">
+    <a href="{{ url_for('main.home') }}">Home</a><span>/</span>
+    <a href="{{ url_for('main.shop') }}">Shop</a><span>/</span>
+    <a href="{{ url_for('main.shop', category=product.category) }}">{{ product.category_label }}</a><span>/</span>
+    <span>{{ product.name }}</span>
+  </nav>
+</div>
+
+<div class="container product-detail" data-product-payload="{{ payload|tojson|forceescape }}">
+  <div class="reveal gallery">
+    <div class="gallery__thumbs">
+      {% for i in range(4) %}
+      <button type="button" class="gallery__thumb {{ 'active' if loop.first }}" data-thumb="{{ i }}">
+        <div class="placeholder-photo ph-{{ (product.seed + i) % 5 }}"><div class="placeholder-photo__content"><span class="placeholder-photo__mark" style="font-size:1.1rem;">JH</span></div></div>
+      </button>
+      {% endfor %}
+    </div>
+    <div class="gallery__main" data-gallery-main>
+      <div class="placeholder-photo ph-{{ product.seed % 5 }}">
+        <div class="placeholder-photo__content">
+          <span class="placeholder-photo__mark">JH</span>
+          <span class="placeholder-photo__tag">Photo coming soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal product-info">
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      {% if product.badge %}<span class="badge badge-{{ product.badge|lower|replace(' ', '-') }}">{{ product.badge }}</span>{% endif %}
+      <p class="eyebrow">{{ product.category_label }}</p>
+    </div>
+    <h1>{{ product.name }}</h1>
+    <div class="price-row">
+      <span class="price" style="font-size:1.4rem;">{{ format_naira(product.price) }}</span>
+      {% if product.old_price and product.old_price > product.price %}<span class="price-old">{{ format_naira(product.old_price) }}</span>{% endif %}
+    </div>
+    <span class="stock-tag stock-{{ product.stock_status }} mt-1"><span class="stock-dot"></span>
+      {{ {"in-stock": "In Stock", "low-stock": "Low Stock", "sold-out": "Sold Out", "preorder": "Pre-Order"}[product.stock_status] }}
+    </span>
+
+    <p class="desc">{{ product.description }}</p>
+
+    {% if product.lengths %}
+    <div class="mt-3">
+      <p class="text-muted" style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Length (inches)</p>
+      <div class="length-options" data-length-selector>
+        {% for l in product.lengths %}
+        <button type="button" class="length-btn {{ 'active' if loop.first }}" data-length="{{ l }}">{{ l }}&quot;</button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    <span data-selected-length style="display:none;"></span>
+
+    <div class="mt-3" data-qty-stepper>
+      <p class="text-muted" style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Quantity</p>
+      <div class="qty-control">
+        <button type="button" data-qty-stepper-down>&minus;</button>
+        <span data-selected-qty>1</span>
+        <button type="button" data-qty-stepper-up>+</button>
+      </div>
+    </div>
+
+    <div class="mt-3" style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <button class="btn btn-primary btn-lg" style="flex:1;" data-add-to-cart {{ 'disabled' if product.stock_status == 'sold-out' }}>
+          {{ 'Sold Out' if product.stock_status == 'sold-out' else 'Add to Bag' }}
+        </button>
+        <a href="{{ build_whatsapp_link(product_inquiry_message(product.name)) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg" style="flex:1;">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2.003c-5.514 0-9.997 4.483-9.997 9.997 0 1.763.462 3.486 1.34 5.003l-1.42 5.19a1 1 0 001.226 1.226l5.19-1.42a9.955 9.955 0 004.661 1.13c5.514 0 9.997-4.483 9.997-9.997S17.515 2 12.001 2zm0 18.194a8.16 8.16 0 01-4.146-1.131l-.297-.176-3.079.843.822-3.001-.194-.309a8.166 8.166 0 01-1.254-4.386c0-4.522 3.679-8.201 8.15-8.201 4.471 0 8.148 3.679 8.148 8.201 0 4.523-3.679 8.16-8.15 8.16z"/></svg>
+          Ask a Question
+        </a>
+      </div>
+
+      <div class="info-callout">
+        <p style="font-weight:600;color:var(--burgundy-800);">Flexible payment plans available.</p>
+        <p class="mt-1">Want to spread the cost? <a href="{{ url_for('main.payment_plans') }}" style="font-weight:600;color:var(--burgundy-700);text-decoration:underline;">See how our payment plans work</a>.</p>
+      </div>
+
+      {% if product.wholesale_available %}
+      <div class="info-callout wholesale">
+        <p><span style="font-weight:600;color:var(--burgundy-800);">Buying in bulk?</span> This item is available at wholesale pricing.</p>
+        <a href="{{ build_whatsapp_link(wholesale_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Ask</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="accordion mt-3">
+      <div class="accordion__item open">
+        <button class="accordion__trigger"><span class="title">Hair Specifications</span><svg class="icon accordion__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="accordion__panel"><ul>{% for s in product.specifications %}<li><span class="dash">&mdash;</span><span>{{ s }}</span></li>{% endfor %}</ul></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__trigger"><span class="title">Care Instructions</span><svg class="icon accordion__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="accordion__panel"><ul>{% for s in product.care_instructions %}<li><span class="dash">&mdash;</span><span>{{ s }}</span></li>{% endfor %}</ul></div>
+      </div>
+      <div class="accordion__item">
+        <button class="accordion__trigger"><span class="title">Payment &amp; Delivery</span><svg class="icon accordion__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="accordion__panel"><p>Pay securely online via Squad (card, bank transfer or USSD), or message us on WhatsApp to arrange a flexible payment plan. Delivery information will be updated here — reach out on WhatsApp for current delivery options and estimated timelines to your location.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if related %}
+<div class="section section-tinted">
+  <div class="container">
+    <h2 class="section-heading reveal">You may also like</h2>
+    <div class="product-grid mt-3">
+      {% for product in related %}
+        {% include "partials/product_card.html" %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

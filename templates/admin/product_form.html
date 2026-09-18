@@ -1,0 +1,85 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Edit Product' if product else 'Add Product' }} | Admin{% endblock %}
+{% block admin_content %}
+<div class="admin-shell">
+  {% include "partials/admin_sidebar.html" %}
+  <main class="admin-main">
+    <h1 style="font-size:1.4rem;margin-bottom:1.5rem;">{{ 'Edit Product' if product else 'Add Product' }}</h1>
+
+    <form method="post" enctype="multipart/form-data" class="form-grid">
+      <div class="form-section">
+        <div class="field"><label>Product Name</label><input name="name" value="{{ product.name if product else '' }}" required></div>
+
+        <div class="two-col-form">
+          <div class="field">
+            <label>Category</label>
+            <select name="category">
+              {% for cat in CATEGORY_CHOICES %}
+              <option value="{{ cat }}" {{ 'selected' if product and product.category == cat }}>{{ CATEGORY_LABELS[cat] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label>Stock Status</label>
+            <select name="stock_status">
+              {% for s in STOCK_STATUS_CHOICES %}
+              <option value="{{ s }}" {{ 'selected' if product and product.stock_status == s }}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="field"><label>Description</label><textarea name="description" rows="4">{{ product.description if product else '' }}</textarea></div>
+        <div class="field"><label>Specifications (one per line)</label><textarea name="specifications" rows="4">{{ product.specifications|join('\n') if product else '' }}</textarea></div>
+        <div class="field"><label>Care Instructions (one per line)</label><textarea name="care_instructions" rows="4">{{ product.care_instructions|join('\n') if product else '' }}</textarea></div>
+
+        <div class="two-col-form">
+          <div class="field"><label>Price (&#8358;)</label><input type="number" min="0" name="price" value="{{ product.price if product else '' }}" required></div>
+          <div class="field"><label>Old Price (&#8358;, optional)</label><input type="number" min="0" name="old_price" value="{{ product.old_price if product and product.old_price else '' }}"></div>
+        </div>
+
+        <div class="field"><label>Available Lengths (comma-separated inches)</label><input name="lengths" value="{{ product.lengths|join(', ') if product else '' }}" placeholder="14, 16, 18, 20"></div>
+      </div>
+
+      <div class="form-section">
+        <div class="field">
+          <label>Images</label>
+          {% if product and product.images and product.images != ['placeholder'] %}
+          <div class="image-thumb-grid">
+            {% for img in product.images %}
+            <div class="image-thumb"><img src="{{ img }}" style="width:100%;height:100%;object-fit:cover;"></div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <label class="upload-drop">
+            Choose image file(s) to upload
+            <input type="file" name="images" accept="image/png,image/jpeg,image/webp,image/gif" multiple style="display:none;">
+          </label>
+          <p class="text-muted mt-1" style="font-size:0.78rem;">Uploading replaces existing images. Leave empty to keep a branded placeholder.</p>
+        </div>
+
+        <div class="field">
+          <label>Badge</label>
+          <select name="badge">
+            <option value="none" {{ 'selected' if not (product and product.badge) }}>No badge</option>
+            {% for b in BADGE_CHOICES %}
+            <option value="{{ b }}" {{ 'selected' if product and product.badge == b }}>{{ b }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="checkbox-card">
+          <label class="checkbox-row"><input type="checkbox" name="availability" {{ 'checked' if not product or product.availability }}> In stock / available</label>
+          <label class="checkbox-row"><input type="checkbox" name="featured" {{ 'checked' if product and product.featured }}> Featured on homepage</label>
+          <label class="checkbox-row"><input type="checkbox" name="best_seller" {{ 'checked' if product and product.best_seller }}> Best Seller</label>
+          <label class="checkbox-row"><input type="checkbox" name="new_arrival" {{ 'checked' if product and product.new_arrival }}> New Arrival</label>
+          <label class="checkbox-row"><input type="checkbox" name="wholesale_available" {{ 'checked' if product and product.wholesale_available }}> Available for wholesale</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">{{ 'Save Changes' if product else 'Create Product' }}</button>
+        <a href="{{ url_for('admin.products') }}" style="text-align:center;font-size:0.88rem;font-weight:600;color:var(--ink-500);">Cancel</a>
+      </div>
+    </form>
+  </main>
+</div>
+{% endblock %}

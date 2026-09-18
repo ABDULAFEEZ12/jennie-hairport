@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+{% block title %}Messages | Admin{% endblock %}
+{% block admin_content %}
+<div class="admin-shell">
+  {% include "partials/admin_sidebar.html" %}
+  <main class="admin-main">
+    <h1 style="font-size:1.4rem;">Messages</h1>
+    <p class="text-muted" style="font-size:0.85rem;margin-bottom:1.5rem;">Submissions from the Contact page form.</p>
+
+    {% if not messages %}
+      <p class="text-muted">No messages yet.</p>
+    {% else %}
+    <div class="messages-list">
+      {% for m in messages %}
+      <div class="message-card">
+        <div class="order-card__head">
+          <p style="font-family:var(--font-display);font-size:1.05rem;">{{ m.name }}</p>
+          <p class="text-muted" style="font-size:0.78rem;">{{ m.created_at.strftime('%d %b %Y, %H:%M') }} UTC</p>
+        </div>
+        <p class="text-muted" style="font-size:0.85rem;">{{ m.email }}</p>
+        <p class="mt-2" style="font-size:0.9rem;color:var(--ink-700);">{{ m.message }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </main>
+</div>
+{% endblock %}

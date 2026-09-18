@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Payment Successful' if status == 'success' else 'Payment Status' }} | {{ SITE.name }}{% endblock %}
+
+{% block content %}
+<div class="result-card">
+  {% if status == 'success' %}
+    <div class="result-icon success">
+      <svg class="icon" style="width:1.8rem;height:1.8rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 class="section-heading">Payment Successful</h1>
+    <p class="mt-2 text-muted">Thank you, {{ order.customer_name }} — your order <strong>{{ order.reference }}</strong> has been confirmed.</p>
+  {% elif order and status == 'pending' %}
+    <div class="result-icon" style="background:rgba(201,162,74,0.2);color:var(--gold-700);">
+      <svg class="icon" style="width:1.8rem;height:1.8rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 class="section-heading">Payment Pending</h1>
+    <p class="mt-2 text-muted">We haven't received confirmation for order <strong>{{ order.reference }}</strong> yet. If you completed payment, this usually updates within a minute — refresh, or message us on WhatsApp with your order reference.</p>
+  {% elif order %}
+    <div class="result-icon failed">
+      <svg class="icon" style="width:1.8rem;height:1.8rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+    </div>
+    <h1 class="section-heading">Payment Not Completed</h1>
+    <p class="mt-2 text-muted">Order <strong>{{ order.reference }}</strong> could not be confirmed as paid. No charge should have been made. You can try again from your bag, or message us on WhatsApp for help.</p>
+  {% else %}
+    <div class="result-icon failed">
+      <svg class="icon" style="width:1.8rem;height:1.8rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01" stroke-linecap="round"/></svg>
+    </div>
+    <h1 class="section-heading">Order Not Found</h1>
+    <p class="mt-2 text-muted">We couldn't find a matching order. If you completed a payment, please message us on WhatsApp with any confirmation you received.</p>
+  {% endif %}
+
+  {% if order %}
+  <div class="order-summary">
+    <ul>
+      {% for item in order.items %}
+      <li><span>{{ item.name }}{% if item.length %} ({{ item.length }}"){% endif %} &times;{{ item.quantity }}</span><span>{{ format_naira(item.line_total) }}</span></li>
+      {% endfor %}
+    </ul>
+    <div class="summary-total mt-2"><span>Total</span><span>{{ format_naira(order.amount) }}</span></div>
+  </div>
+  {% endif %}
+
+  <div class="final-cta__actions mt-3" style="justify-content:center;">
+    <a href="{{ url_for('main.shop') }}" class="btn btn-secondary">Continue Shopping</a>
+    <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">Chat with Us</a>
+  </div>
+</div>
+{% endblock %}

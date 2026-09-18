@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Wholesale Hair Supplier — Nigeria | {{ SITE.name }}{% endblock %}
+{% block description %}Wholesale Vietnam bone straight hair, wigs, bundles and closures for vendors, salons, resellers and entrepreneurs across Nigeria.{% endblock %}
+
+{% block content %}
+<div class="container simple-hero">
+  <div class="reveal">
+    <p class="eyebrow">Wholesale</p>
+    <h1 class="section-heading" style="font-size:clamp(2rem,4vw,2.75rem);">Build Your Hair Business With Us</h1>
+    <p class="mt-2" style="max-width:30rem;color:var(--ink-700);">Jennie_Hairport offers wholesale opportunities for hair vendors, beauty businesses, salons, resellers and entrepreneurs looking for a reliable, quality-checked supply of premium hair.</p>
+    <a href="{{ build_whatsapp_link(wholesale_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Become a Wholesale Customer</a>
+  </div>
+  <div class="reveal simple-hero__media"><div class="placeholder-photo ph-3"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+</div>
+
+<section class="section section-tinted">
+  <div class="container" style="text-align:center;">
+    <h2 class="section-heading reveal">Who We Work With</h2>
+    <div class="pill-row reveal">
+      {% for audience in ["Hair vendors", "Beauty businesses", "Salons", "Resellers", "Entrepreneurs starting a hair line"] %}
+        <span class="pill">{{ audience }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <h2 class="section-heading reveal" style="text-align:center;">Why Buy Wholesale From Us</h2>
+  <div class="pillars-grid">
+    <div class="benefit-card reveal">
+      <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <p style="font-family:var(--font-display);font-size:1.05rem;">Wholesale Pricing</p>
+      <p style="font-size:0.9rem;color:var(--ink-700);">Volume-based pricing that gives you healthy margins to resell confidently.</p>
+    </div>
+    <div class="benefit-card reveal">
+      <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <p style="font-family:var(--font-display);font-size:1.05rem;">Consistent Quality</p>
+      <p style="font-size:0.9rem;color:var(--ink-700);">The same quality control on every bulk order, batch after batch.</p>
+    </div>
+    <div class="benefit-card reveal">
+      <span class="benefit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <p style="font-family:var(--font-display);font-size:1.05rem;">Direct Communication</p>
+      <p style="font-size:0.9rem;color:var(--ink-700);">Work directly with our team on WhatsApp — no lengthy sign-up process.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section container" style="max-width:42rem;text-align:center;">
+  <div class="reveal">
+    <h2 class="section-heading">Minimum orders &amp; pricing, made simple</h2>
+    <p class="mt-2" style="color:var(--ink-700);">Wholesale terms depend on the products and quantities you need. Message us on WhatsApp with what you're looking to stock, and we'll send current wholesale pricing and minimum order details.</p>
+    <a href="{{ build_whatsapp_link(wholesale_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Get Wholesale Terms</a>
+  </div>
+</section>
+{% endblock %}

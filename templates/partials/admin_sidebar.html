@@ -1,0 +1,12 @@
+<aside class="admin-sidebar">
+  <div>
+    <span class="logo__text" style="font-size:1.05rem;color:var(--burgundy-900);">Jennie<b style="color:var(--gold-600);">_</b>Hairport</span>
+    <p class="text-muted" style="font-size:0.78rem;margin-top:0.2rem;">Admin Panel</p>
+    <nav>
+      <a href="{{ url_for('admin.products') }}" class="{{ 'active' if request.endpoint and request.endpoint.startswith('admin.') and 'product' in request.endpoint }}">Products</a>
+      <a href="{{ url_for('admin.orders') }}" class="{{ 'active' if request.endpoint == 'admin.orders' }}">Orders</a>
+      <a href="{{ url_for('admin.messages') }}" class="{{ 'active' if request.endpoint == 'admin.messages' }}">Messages</a>
+    </nav>
+  </div>
+  <a href="{{ url_for('admin.logout') }}" style="font-size:0.9rem;font-weight:600;color:var(--ink-500);">Log Out</a>
+</aside>

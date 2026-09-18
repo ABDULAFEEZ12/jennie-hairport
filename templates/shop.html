@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Shop Premium Hair — Bone Straight, Wigs, Bundles & Closures | {{ SITE.name }}{% endblock %}
+{% block description %}Browse Jennie_Hairport's full collection of Vietnam-sourced bone straight hair, wigs, bundles, closures and frontals. Transparent pricing, real availability.{% endblock %}
+
+{% block content %}
+{% set qs = request.args.to_dict() %}
+
+<div class="shop-header">
+  <div class="container reveal">
+    <p class="eyebrow">Shop</p>
+    <h1 class="section-heading" style="font-size:clamp(2rem,4vw,2.75rem);">{{ heading }}</h1>
+    <p class="mt-2 text-muted">{{ products|length }} product{{ '' if products|length == 1 else 's' }} available</p>
+  </div>
+</div>
+
+<div class="container shop-layout">
+  {% macro filter_links() %}
+    <div>
+      <h4>Category</h4>
+      <ul>
+        <li><a href="{{ url_for('main.shop') }}" class="{{ 'active' if not active_category }}">All Products</a></li>
+        {% for cat in CATEGORY_CHOICES %}
+        <li><a href="{{ url_for('main.shop', category=cat) }}" class="{{ 'active' if active_category == cat }}">{{ CATEGORY_LABELS[cat] }}</a></li>
+        {% endfor %}
+        <li><a href="{{ url_for('main.shop', category='new-arrivals') }}" class="{{ 'active' if active_category == 'new-arrivals' }}">New Arrivals</a></li>
+        <li><a href="{{ url_for('main.shop', category='best-sellers') }}" class="{{ 'active' if active_category == 'best-sellers' }}">Best Sellers</a></li>
+        <li><a href="{{ url_for('main.shop', category='wholesale') }}" class="{{ 'active' if active_category == 'wholesale' }}">Wholesale</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Availability</h4>
+      <label class="checkbox-row">
+        <input type="checkbox" data-availability-toggle {{ 'checked' if active_availability == 'in-stock' }}>
+        In stock only
+      </label>
+    </div>
+    {% if all_lengths %}
+    <div>
+      <h4>Length (inches)</h4>
+      <div class="chip-row">
+        {% for l in all_lengths %}
+        <button type="button" class="chip {{ 'active' if active_length == l|string }}" data-length-chip="{{ l }}">{{ l }}&quot;</button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  {% endmacro %}
+
+  <aside class="filters-sidebar">
+    <div class="filters">{{ filter_links() }}</div>
+  </aside>
+
+  <div style="flex:1;min-width:0;">
+    <div class="shop-toolbar">
+      <button class="mobile-filter-btn" data-open-filters>
+        Filters
+        {% if active_category or active_availability or active_length %}<span class="filter-count">1</span>{% endif %}
+      </button>
+      <div class="select-wrap" style="margin-left:auto;">
+        <select data-sort-select>
+          <option value="" {{ 'selected' if not active_sort }}>Sort: Featured</option>
+          <option value="newest" {{ 'selected' if active_sort == 'newest' }}>Sort: Newest</option>
+          <option value="best-selling" {{ 'selected' if active_sort == 'best-selling' }}>Sort: Best Selling</option>
+          <option value="price-asc" {{ 'selected' if active_sort == 'price-asc' }}>Sort: Price Low to High</option>
+          <option value="price-desc" {{ 'selected' if active_sort == 'price-desc' }}>Sort: Price High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    {% if products %}
+    <div class="product-grid cols-4">
+      {% for product in products %}
+        {% include "partials/product_card.html" %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>No products match these filters</p>
+      <p>Try adjusting or clearing your filters.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="filter-drawer" data-filter-drawer>
+  <div class="filter-drawer__overlay"></div>
+  <div class="filter-drawer__panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+      <h3 style="font-size:1.1rem;">Filters</h3>
+      <button class="icon-btn" data-close-filters aria-label="Close filters">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="filters">{{ filter_links() }}</div>
+    <button class="btn btn-primary btn-block mt-3" data-close-filters>Show Results</button>
+  </div>
+</div>
+
+{% endblock %}

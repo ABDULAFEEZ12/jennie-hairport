@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}About Us | {{ SITE.name }}{% endblock %}
+{% block description %}Jennie_Hairport sources premium bone straight hair directly from Vietnam, offering authentic quality at fair, transparent prices.{% endblock %}
+
+{% block content %}
+<div class="container simple-hero">
+  <div class="reveal">
+    <p class="eyebrow">Our Story</p>
+    <h1 class="section-heading" style="font-size:clamp(2rem,4vw,2.75rem);">Premium Hair Shouldn't Mean Overpaying</h1>
+    <p class="mt-2" style="max-width:30rem;color:var(--ink-700);">Jennie_Hairport was built on a simple belief: women deserve access to genuinely premium hair without paying for unnecessary luxury markups. We source directly from Vietnam, control quality closely, and pass the savings on to you.</p>
+  </div>
+  <div class="reveal simple-hero__media"><div class="placeholder-photo ph-1"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+</div>
+
+<section class="section section-tinted">
+  <div class="container">
+    <h2 class="section-heading reveal" style="text-align:center;">What We Stand For</h2>
+    <div class="pillars-grid">
+      {% set pillars = [
+        ("Direct Sourcing", "We work directly with suppliers in Vietnam, removing the layers of resale markup that inflate prices elsewhere."),
+        ("Quality Control", "Every batch is checked for texture, weight and consistency before it's approved to sell."),
+        ("Authentic Hair", "100% human hair — no synthetic blends passed off as premium. What we describe is what you receive."),
+        ("Competitive Pricing", "We price for real customers, not luxury markups, without cutting corners on quality."),
+        ("Long-Lasting Quality", "Cared for properly, our hair is built to be reused and restyled for a long time."),
+        ("Accessible Premium", "Flexible payment plans and secure online payment mean more people can access hair that actually lasts."),
+      ] %}
+      {% for title, desc in pillars %}
+      <div class="reveal">
+        <p style="font-family:var(--font-display);font-size:1.05rem;">{{ title }}</p>
+        <p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section container" style="max-width:42rem;text-align:center;">
+  <div class="reveal">
+    <h2 class="section-heading">Have questions about our hair?</h2>
+    <p class="mt-2" style="color:var(--ink-700);">We're happy to talk you through sourcing, texture, or which collection suits you best — reach out any time.</p>
+    <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Chat With Us</a>
+  </div>
+</section>
+{% endblock %}

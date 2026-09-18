@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Your Bag | {{ SITE.name }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding:2.5rem 0 0;">
+  <h1 class="reveal">Your Bag</h1>
+</div>
+
+<div class="container cart-page">
+  <div class="cart-drawer__empty" data-cart-page-empty style="display:none;padding:5rem 0;">
+    <p style="font-family:var(--font-display);font-size:1.3rem;color:var(--burgundy-900);">Your bag is empty</p>
+    <p class="text-muted">Let's find you something beautiful.</p>
+    <a href="{{ url_for('main.shop') }}" class="btn btn-primary">Shop Hair</a>
+  </div>
+
+  <div class="cart-layout" data-cart-page-body style="display:none;">
+    <div>
+      <ul data-cart-page-items></ul>
+      <a href="{{ url_for('main.shop') }}" class="hero__link">Continue shopping &rarr;</a>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-row"><span>Subtotal</span><span data-cart-subtotal>&#8358;0</span></div>
+      <div class="summary-total"><span>Total</span><span data-cart-total>&#8358;0</span></div>
+      <p class="text-muted mt-1" style="font-size:0.75rem;">Currency: NGN &middot; charged securely via Squad.</p>
+
+      <form data-checkout-form>
+        <p class="text-muted" style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">Your Details</p>
+        <input name="name" placeholder="Full name" required>
+        <input name="email" type="email" placeholder="Email address" required>
+        <input name="phone" placeholder="WhatsApp / phone number" required>
+        <input name="location" placeholder="Delivery location" required>
+        <textarea name="notes" rows="3" placeholder="Additional notes (optional)"></textarea>
+
+        <p class="form-error" data-checkout-error></p>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block mt-1" data-checkout-submit>Pay with Squad</button>
+        <p class="form-note">You'll be redirected to Squad's secure payment page to complete your order.</p>
+        <p class="form-note">Prefer a payment plan? <a href="{{ url_for('main.payment_plans') }}" style="font-weight:600;color:var(--burgundy-700);">Ask us on WhatsApp</a> before checking out.</p>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

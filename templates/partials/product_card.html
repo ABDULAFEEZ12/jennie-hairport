@@ -1,0 +1,45 @@
+{% set payload = {
+  "id": product.id,
+  "slug": product.slug,
+  "name": product.name,
+  "price": product.price,
+  "oldPrice": product.old_price,
+  "image": product.primary_image,
+  "category": product.category_label,
+  "description": product.description,
+  "lengths": product.lengths,
+} %}
+<div class="product-card" data-product-payload="{{ payload|tojson|forceescape }}">
+  <a href="{{ url_for('main.product_detail', slug=product.slug) }}" class="product-card__media">
+    <div class="placeholder-photo ph-{{ product.seed % 5 }}">
+      <div class="placeholder-photo__content">
+        <span class="placeholder-photo__mark">JH</span>
+        <span class="placeholder-photo__tag">Photo coming soon</span>
+      </div>
+    </div>
+
+    <div class="product-card__badges">
+      {% if product.badge %}
+        <span class="badge badge-{{ product.badge|lower|replace(' ', '-') }}">{{ product.badge }}</span>
+      {% endif %}
+      {% if product.discount_percent %}
+        <span class="badge badge-discount">-{{ product.discount_percent }}%</span>
+      {% endif %}
+    </div>
+
+    <button type="button" class="quick-view-btn" data-quick-view-trigger>Quick View</button>
+  </a>
+
+  <div class="product-card__body">
+    <a href="{{ url_for('main.product_detail', slug=product.slug) }}" class="product-card__name">{{ product.name }}</a>
+    <div class="price-row">
+      <span class="price">{{ format_naira(product.price) }}</span>
+      {% if product.old_price and product.old_price > product.price %}
+        <span class="price-old">{{ format_naira(product.old_price) }}</span>
+      {% endif %}
+    </div>
+    <span class="stock-tag stock-{{ product.stock_status }}"><span class="stock-dot"></span>
+      {{ {"in-stock": "In Stock", "low-stock": "Low Stock", "sold-out": "Sold Out", "preorder": "Pre-Order"}[product.stock_status] }}
+    </span>
+  </div>
+</div>

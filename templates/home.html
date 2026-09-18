@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div>
+      <span class="hero__badge">Vietnam-Sourced &middot; Direct Pricing</span>
+      <h1>Premium Hair.<br><em>Real Quality.</em><br>Better Value.</h1>
+      <p class="lede">Vietnam-sourced bone straight hair, wigs, bundles and closures made accessible — without unnecessary luxury markups.</p>
+      <div class="hero__actions">
+        <a href="{{ url_for('main.shop') }}" class="btn btn-primary btn-lg">Shop Hair</a>
+        <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2.003c-5.514 0-9.997 4.483-9.997 9.997 0 1.763.462 3.486 1.34 5.003l-1.42 5.19a1 1 0 001.226 1.226l5.19-1.42a9.955 9.955 0 004.661 1.13c5.514 0 9.997-4.483 9.997-9.997S17.515 2 12.001 2zm0 18.194a8.16 8.16 0 01-4.146-1.131l-.297-.176-3.079.843.822-3.001-.194-.309a8.166 8.166 0 01-1.254-4.386c0-4.522 3.679-8.201 8.15-8.201 4.471 0 8.148 3.679 8.148 8.201 0 4.523-3.679 8.16-8.15 8.16z"/></svg>
+          Chat with Us
+        </a>
+      </div>
+      <a href="{{ url_for('main.shop') }}" class="hero__link">Explore Collections &rarr;</a>
+    </div>
+
+    <div class="hero__collage">
+      <div class="collage-grid">
+        <div class="collage-tile collage-tile--a"><div class="placeholder-photo ph-2"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+        <div class="collage-tile collage-tile--b"><div class="placeholder-photo ph-4"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+        <div class="collage-tile collage-tile--c"><div class="placeholder-photo ph-0"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+        <div class="collage-tile collage-tile--d"><div class="placeholder-photo ph-3"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+      </div>
+      <div class="hero__chip">
+        <p>100% Human Hair</p>
+        <p>Sourced directly from Vietnam</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trust-strip">
+  <div class="container trust-strip__grid">
+    <div><p>Vietnam-Sourced</p><p>Direct from single donors</p></div>
+    <div><p>Direct Pricing</p><p>No unnecessary markups</p></div>
+    <div><p>Flexible Payments</p><p>Plans available on request</p></div>
+    <div><p>Secure Payments</p><p>Pay safely online via Squad</p></div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="reveal">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Collections</p>
+        <h2 class="section-heading">Shop by Category</h2>
+      </div>
+      <a href="{{ url_for('main.shop') }}" class="hide-mobile">View all</a>
+    </div>
+  </div>
+  <div class="category-grid">
+    {% for cat in CATEGORY_CHOICES %}
+    <a href="{{ url_for('main.shop', category=cat) }}" class="category-tile reveal">
+      <div class="placeholder-photo ph-{{ loop.index0 }}"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div>
+      <div class="category-tile__overlay"></div>
+      <div class="category-tile__label">
+        <p>{{ CATEGORY_LABELS[cat] }}</p>
+        <span></span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section-tinted">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Customer Favourites</p>
+          <h2 class="section-heading">Best Sellers</h2>
+        </div>
+        <a href="{{ url_for('main.shop', category='best-sellers') }}" class="hide-mobile">View all</a>
+      </div>
+    </div>
+    <div class="scroll-row">
+      {% for product in best_sellers %}
+        {% include "partials/product_card.html" %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if new_arrivals %}
+<section class="section container">
+  <div class="reveal">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Just In</p>
+        <h2 class="section-heading">New Arrivals</h2>
+      </div>
+      <a href="{{ url_for('main.shop', category='new-arrivals') }}" class="hide-mobile">View all</a>
+    </div>
+  </div>
+  <div class="scroll-row">
+    {% for product in new_arrivals %}
+      {% include "partials/product_card.html" %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="section container why-grid">
+  <div class="reveal media-frame">
+    <div class="placeholder-photo ph-1"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div>
+  </div>
+  <div class="reveal">
+    <p class="eyebrow">Why Jennie_Hairport</p>
+    <h2 class="section-heading">Luxury hair, priced honestly</h2>
+    <p class="mt-2" style="max-width:32rem;color:var(--ink-700);">We built Jennie_Hairport around one idea: premium hair shouldn't come with an unreasonable markup. Here's how we keep quality high and prices fair.</p>
+    <div class="why-grid__reasons">
+      <div><span class="n">01</span><p style="font-family:var(--font-display);font-size:1.1rem;margin-top:0.4rem;">Direct Sourcing</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">We source directly from trusted suppliers in Vietnam, cutting out layers of middlemen markup.</p></div>
+      <div><span class="n">02</span><p style="font-family:var(--font-display);font-size:1.1rem;margin-top:0.4rem;">Quality Control</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">Every batch is checked for texture, density and consistency before it reaches you.</p></div>
+      <div><span class="n">03</span><p style="font-family:var(--font-display);font-size:1.1rem;margin-top:0.4rem;">Authentic Hair</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">100% human hair that holds a style, takes colour well, and lasts with proper care.</p></div>
+      <div><span class="n">04</span><p style="font-family:var(--font-display);font-size:1.1rem;margin-top:0.4rem;">Fair, Transparent Pricing</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">Premium quality priced for real people — with flexible plans when you need them.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="promo">
+  <div class="container promo__grid">
+    <div class="reveal promo__media"><div class="placeholder-photo ph-0"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+    <div class="reveal">
+      <p class="eyebrow">Payment Plans</p>
+      <h2 class="section-heading">Premium hair, flexible payments</h2>
+      <p class="desc mt-2" style="color:var(--ink-700);max-width:30rem;">Get the hair you want with flexible payment options designed to make premium quality more accessible.</p>
+      <a href="{{ build_whatsapp_link(payment_plan_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Ask About Payment Plans</a>
+    </div>
+  </div>
+</section>
+
+<section class="promo is-dark">
+  <div class="container promo__grid reverse">
+    <div class="reveal promo__media"><div class="placeholder-photo ph-4"><div class="placeholder-photo__content"><span class="placeholder-photo__mark">JH</span></div></div></div>
+    <div class="reveal">
+      <p class="eyebrow">Wholesale</p>
+      <h2 class="section-heading">Grow your business with us</h2>
+      <p class="desc mt-2" style="max-width:30rem;">Wholesale pricing for hair vendors, beauty businesses, salons, resellers and entrepreneurs ready to scale.</p>
+      <a href="{{ build_whatsapp_link(wholesale_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Become a Wholesale Customer</a>
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="reveal" style="text-align:center;max-width:36rem;margin:0 auto 2.25rem;">
+    <p class="eyebrow">Customer Voices</p>
+    <h2 class="section-heading">What Our Customers Say</h2>
+  </div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card reveal"><div><span class="badge-placeholder">Placeholder review</span><blockquote>"This space is reserved for a real customer review. Swap in your own once you start collecting feedback."</blockquote></div><cite>— Customer Name</cite></div>
+    <div class="testimonial-card reveal"><div><span class="badge-placeholder">Placeholder review</span><blockquote>"Add a short, genuine quote from someone who has bought from Jennie_Hairport here."</blockquote></div><cite>— Customer Name</cite></div>
+    <div class="testimonial-card reveal"><div><span class="badge-placeholder">Placeholder review</span><blockquote>"Real testimonials build trust faster than anything else — replace this placeholder as soon as you can."</blockquote></div><cite>— Customer Name</cite></div>
+  </div>
+</section>
+
+<section class="section section-tinted">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:30rem;margin:0 auto 2rem;">
+      <p class="eyebrow">Follow Along</p>
+      <h2 class="section-heading">@{{ SITE.instagram_handle }} on Instagram</h2>
+      <div class="pill-row" style="margin-top:1rem;">
+        <a href="{{ SITE.instagram_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Instagram</a>
+        <a href="{{ SITE.tiktok_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">TikTok</a>
+      </div>
+    </div>
+    <div class="social-grid">
+      {% for i in range(6) %}
+      <a href="{{ SITE.instagram_url }}" target="_blank" rel="noopener noreferrer" class="social-tile reveal">
+        <div class="placeholder-photo ph-{{ i }}"><div class="placeholder-photo__content"><span class="placeholder-photo__mark" style="font-size:1.2rem;">JH</span></div></div>
+      </a>
+      {% endfor %}
+    </div>
+    <p class="text-muted mt-3" style="text-align:center;font-size:0.8rem;">Social feed preview — connect your Instagram to display live posts here.</p>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="location-card reveal">
+    <div class="location-card__content">
+      <p class="eyebrow" style="color:var(--gold-400);">Visit or Reach Us</p>
+      <h2 class="section-heading" style="color:var(--cream-50);">Come See Us in Person</h2>
+      <p class="mt-3" style="display:flex;gap:0.6rem;align-items:flex-start;color:rgba(248,240,227,0.85);">
+        <svg class="icon" style="margin-top:2px;color:var(--gold-400);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.1-7-11a7 7 0 1114 0c0 4.9-7 11-7 11z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4"/></svg>
+        {{ SITE.address }}
+      </p>
+      <p class="mt-2" style="font-size:0.85rem;color:rgba(248,240,227,0.6);">Prefer to shop from home? Our team responds fastest on WhatsApp.</p>
+      <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Chat With Us</a>
+    </div>
+    <div class="location-card__map">
+      <div class="location-card__map-inner">
+        <p style="font-family:var(--font-display);font-style:italic;color:var(--cream-50);font-size:1.1rem;">Map coming soon</p>
+        <p style="font-size:0.75rem;color:rgba(248,240,227,0.6);max-width:16rem;margin-top:0.4rem;">An interactive map will be added here once the exact location pin is confirmed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="container reveal" style="max-width:34rem;">
+    <p class="eyebrow" style="color:var(--gold-400);">Ready When You Are</p>
+    <h2 class="section-heading" style="color:var(--cream-50);">Your next look starts here</h2>
+    <p>Browse our collections or message us directly — we're happy to help you find the right texture, length and price point.</p>
+    <div class="final-cta__actions">
+      <a href="{{ url_for('main.shop') }}" class="btn btn-primary btn-lg">Shop Hair</a>
+      <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg">Chat with Us</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

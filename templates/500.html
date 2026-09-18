@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Something Went Wrong | {{ SITE.name }}{% endblock %}
+{% block content %}
+<div class="result-card">
+  <h1 class="section-heading">Something Went Wrong</h1>
+  <p class="mt-2 text-muted">We're having a technical issue. Please try again shortly, or message us on WhatsApp.</p>
+  <div class="final-cta__actions mt-3" style="justify-content:center;">
+    <a href="{{ url_for('main.home') }}" class="btn btn-primary">Back to Home</a>
+    <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">Chat with Us</a>
+  </div>
+</div>
+{% endblock %}
