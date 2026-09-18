@@ -22,13 +22,16 @@ def create_app(config_class: type = Config) -> Flask:
 
     def find_static_image(*candidates):
         """Returns the /static URL for the first candidate filename that actually
-        exists in static/images/, or None if the owner hasn't added one yet."""
+        exists in static/images/, or None if the owner hasn't added one yet.
+
+        Checked fresh on every request (not cached at startup) — an `os.path.exists`
+        call is microseconds, and it means a logo dropped into a running deployment
+        appears immediately, with no restart required.
+        """
         for filename in candidates:
             if os.path.exists(os.path.join(app.static_folder, "images", filename)):
                 return f"/static/images/{filename}"
         return None
-
-    logo_url = find_static_image("logo.png", "logo.svg", "logo.jpg", "logo.jpeg")
 
     from .blueprints.main.routes import main_bp
     from .blueprints.admin.routes import admin_bp
@@ -68,7 +71,7 @@ def create_app(config_class: type = Config) -> Flask:
             "wholesale_inquiry_message": utils.wholesale_inquiry_message,
             "product_inquiry_message": utils.product_inquiry_message,
             "current_year": datetime.now().year,
-            "logo_url": logo_url,
+            "logo_url": find_static_image("logo.png", "logo.svg", "logo.jpg", "logo.jpeg"),
         }
 
     @app.errorhandler(404)

@@ -9,7 +9,9 @@
   <div class="container reveal">
     <p class="eyebrow">Shop</p>
     <h1 class="section-heading" style="font-size:clamp(2rem,4vw,2.75rem);">{{ heading }}</h1>
+    {% if not catalog_empty %}
     <p class="mt-2 text-muted">{{ products|length }} product{{ '' if products|length == 1 else 's' }} available</p>
+    {% endif %}
   </div>
 </div>
 
@@ -75,13 +77,12 @@
     </div>
     {% elif catalog_empty %}
     <div class="empty-state">
-      <p>New arrivals will appear here soon</p>
-      <p>We're preparing our first collection. Message us on WhatsApp if you'd like to know what's coming.</p>
+      <p class="empty-state__heading">New arrivals will appear here soon</p>
       <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp mt-3">Chat With Us</a>
     </div>
     {% else %}
     <div class="empty-state">
-      <p>No products match these filters</p>
+      <p class="empty-state__heading">No products match these filters</p>
       <p>Try adjusting or clearing your filters.</p>
     </div>
     {% endif %}

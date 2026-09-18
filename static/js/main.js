@@ -18,6 +18,20 @@
   menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => menu.classList.remove("is-open")));
 })();
 
+// Header search
+(function () {
+  const openBtn = document.querySelector("[data-open-search]");
+  const closeBtn = document.querySelector("[data-close-search]");
+  const bar = document.querySelector("[data-header-search]");
+  if (!bar) return;
+  const input = bar.querySelector("input");
+  openBtn?.addEventListener("click", () => {
+    bar.classList.add("is-open");
+    input?.focus();
+  });
+  closeBtn?.addEventListener("click", () => bar.classList.remove("is-open"));
+})();
+
 // Reveal-on-scroll
 (function () {
   const items = document.querySelectorAll(".reveal");
