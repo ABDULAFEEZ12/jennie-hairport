@@ -4,10 +4,10 @@ from urllib.parse import quote
 
 SITE = {
     "name": "Jennie_Hairport",
-    "tagline": "Premium Hair. Real Quality. Better Value.",
+    "tagline": "Premium Hair, Fair Prices.",
     "description": (
-        "Vietnam-sourced bone straight hair, wigs, bundles and closures made accessible "
-        "without unnecessary luxury markups."
+        "Vietnam bone-straight hair, wigs, bundles and closures — direct sourcing, "
+        "honest pricing."
     ),
     "whatsapp_number": "2349034160178",
     "whatsapp_display": "+234 903 416 0178",
