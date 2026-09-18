@@ -49,6 +49,15 @@
     </div>
   </div>
 
+  <nav class="cat-strip">
+    {% for cat in CATEGORY_CHOICES %}
+      <a href="{{ url_for('main.shop', category=cat) }}">{{ CATEGORY_LABELS[cat] }}</a>
+    {% endfor %}
+    <a href="{{ url_for('main.shop', category='new-arrivals') }}">New Arrivals</a>
+    <a href="{{ url_for('main.shop', category='best-sellers') }}">Best Sellers</a>
+    <a href="{{ url_for('main.shop') }}">Shop All</a>
+  </nav>
+
   <div class="header-search" data-header-search>
     <form class="container header-search__form" action="{{ url_for('main.shop') }}" method="get">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>

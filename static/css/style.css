@@ -213,6 +213,25 @@ input:focus, textarea:focus, select:focus { border-color: var(--gold-500); }
   .hamburger { display: none; }
 }
 
+/* Mobile category quick-nav — lets shoppers jump straight into a category
+   without opening the hamburger menu first. */
+.cat-strip {
+  display: flex; gap: 0.5rem; overflow-x: auto; white-space: nowrap;
+  padding: 0.65rem 1.25rem; border-top: 1px solid var(--cream-200);
+  scrollbar-width: none;
+}
+.cat-strip::-webkit-scrollbar { display: none; }
+.cat-strip a {
+  flex-shrink: 0; padding: 0.45rem 0.95rem; border-radius: 999px;
+  background: var(--cream-100); color: var(--burgundy-900);
+  font-size: 0.78rem; font-weight: 600;
+}
+.cat-strip a:hover { background: var(--cream-200); }
+
+@media (min-width: 1024px) {
+  .cat-strip { display: none; }
+}
+
 /* Header search */
 .header-search {
   max-height: 0; overflow: hidden; background: var(--cream-50);
