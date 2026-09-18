@@ -61,20 +61,16 @@
     return "₦" + Math.round(amount).toLocaleString("en-NG");
   }
 
-  function placeholderClass(seed) {
-    return "ph-" + (Math.abs(seed) % 5);
+  function escapeHtml(value) {
+    return String(value || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
 
   function mediaHtml(image, seed, alt) {
+    const safeAlt = escapeHtml(alt);
     if (image && image !== "placeholder") {
-      return `<img src="${image}" alt="${alt || ""}" style="width:100%;height:100%;object-fit:cover;">`;
+      return `<div class="product-photo"><img src="${image}" alt="${safeAlt}" loading="lazy"></div>`;
     }
-    return `
-      <div class="placeholder-photo ${placeholderClass(seed || 0)}">
-        <div class="placeholder-photo__content">
-          <span class="placeholder-photo__mark">JH</span>
-        </div>
-      </div>`;
+    return `<div class="product-photo product-photo--empty" role="img" aria-label="${safeAlt}"></div>`;
   }
 
   // ---- Drawer ----
@@ -221,7 +217,10 @@
   // ---- Add-to-cart buttons (product page + quick view) ----
   function bindAddToCartButtons() {
     document.querySelectorAll("[data-add-to-cart]").forEach((btn) => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        // Card-level add buttons sit inside an <a> (the product link) — stop it from navigating.
+        e.preventDefault();
+        e.stopPropagation();
         const card = btn.closest("[data-product-payload]");
         if (!card) return;
         const product = JSON.parse(card.dataset.productPayload);
@@ -244,8 +243,10 @@
         btn.addEventListener("click", () => {
           wrap.querySelectorAll(".length-btn").forEach((b) => b.classList.remove("active"));
           btn.classList.add("active");
-          const target = wrap.closest("[data-product-payload]")?.querySelector("[data-selected-length]");
+          const scope = wrap.closest("[data-product-payload]");
+          const target = scope?.querySelector("[data-selected-length]");
           if (target) target.dataset.selectedLength = btn.dataset.length;
+          if (scope) updateWhatsAppOrderLink(scope);
         });
       });
     });
@@ -255,13 +256,37 @@
   function bindQuantitySteppers() {
     document.querySelectorAll("[data-qty-stepper]").forEach((wrap) => {
       const display = wrap.querySelector("[data-selected-qty]");
+      const scope = wrap.closest("[data-product-payload]");
       wrap.querySelector("[data-qty-stepper-down]")?.addEventListener("click", () => {
         display.textContent = String(Math.max(1, Number(display.textContent) - 1));
+        if (scope) updateWhatsAppOrderLink(scope);
       });
       wrap.querySelector("[data-qty-stepper-up]")?.addEventListener("click", () => {
         display.textContent = String(Number(display.textContent) + 1);
+        if (scope) updateWhatsAppOrderLink(scope);
       });
     });
+  }
+
+  // Builds the "Order via WhatsApp" link with the live product name, selected
+  // length, quantity and total amount baked into the message text.
+  function updateWhatsAppOrderLink(scope) {
+    const link = scope.querySelector("[data-whatsapp-order-link]");
+    if (!link || !scope.dataset.productPayload) return;
+    const product = JSON.parse(scope.dataset.productPayload);
+    const lengthEl = scope.querySelector("[data-selected-length]");
+    const qtyEl = scope.querySelector("[data-selected-qty]");
+    const length = lengthEl?.dataset.selectedLength;
+    const quantity = qtyEl ? Number(qtyEl.textContent) || 1 : 1;
+    const amount = product.price * quantity;
+
+    const lines = ["Hello Jennie_Hairport, I'd like to order:", "", `Product: ${product.name}`];
+    if (length) lines.push(`Length: ${length} inches`);
+    lines.push(`Quantity: ${quantity}`);
+    lines.push(`Amount: ${formatNaira(amount)}`);
+    lines.push("", "Please confirm availability and delivery details.");
+
+    link.href = "https://wa.me/2349034160178?text=" + encodeURIComponent(lines.join("\n"));
   }
 
   // ---- Quick view modal ----
@@ -317,13 +342,9 @@
     const viewLink = overlay.querySelector("[data-qv-view-link]");
     if (viewLink) viewLink.href = "/product/" + product.slug;
 
-    const waLink = overlay.querySelector("[data-qv-whatsapp-link]");
-    if (waLink && waLink.dataset.hrefTemplate) {
-      waLink.href = waLink.dataset.hrefTemplate.replace("__NAME__", encodeURIComponent(product.name));
-    }
-
     bindLengthSelectors();
     bindQuantitySteppers();
+    updateWhatsAppOrderLink(payloadHost);
   }
 
   // ---- Checkout ----
@@ -332,20 +353,57 @@
     if (!form) return;
     const errorEl = document.querySelector("[data-checkout-error]");
     const submitBtn = form.querySelector("[data-checkout-submit]");
+    const waBtn = form.querySelector("[data-order-whatsapp-submit]");
 
+    function readCommonFields() {
+      return {
+        name: form.name.value.trim(),
+        phone: form.phone.value.trim(),
+        location: form.location.value.trim(),
+        notes: form.notes.value.trim(),
+      };
+    }
+
+    function cartItemsPayload() {
+      const cart = getCart();
+      return cart.map((i) => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, length: i.length }));
+    }
+
+    // Order via WhatsApp — no online payment, no email required.
+    waBtn?.addEventListener("click", () => {
+      const cart = getCart();
+      if (cart.length === 0) return;
+      const fields = readCommonFields();
+
+      if (!fields.name || !fields.phone || !fields.location) {
+        if (errorEl) errorEl.textContent = "Please fill in your name, phone and delivery location.";
+        return;
+      }
+      if (errorEl) errorEl.textContent = "";
+
+      const lines = ["Hello Jennie_Hairport, I'd like to order:", ""];
+      cart.forEach((item) => {
+        const lengthPart = item.length ? ` (${item.length}")` : "";
+        lines.push(`- ${item.name}${lengthPart} x${item.quantity} — ${formatNaira(item.price * item.quantity)}`);
+      });
+      lines.push("", `Total: ${formatNaira(subtotal(cart))}`, "", `Name: ${fields.name}`, `Phone: ${fields.phone}`, `Delivery Location: ${fields.location}`);
+      if (fields.notes) lines.push(`Notes: ${fields.notes}`);
+      lines.push("", "Please confirm availability and delivery details.");
+
+      window.open("https://wa.me/2349034160178?text=" + encodeURIComponent(lines.join("\n")), "_blank");
+      clearCart();
+    });
+
+    // Pay Online with Squad — requires email for the receipt/payment record.
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const cart = getCart();
       if (cart.length === 0) return;
 
-      const payload = {
-        name: form.name.value.trim(),
+      const payload = Object.assign(readCommonFields(), {
         email: form.email.value.trim(),
-        phone: form.phone.value.trim(),
-        location: form.location.value.trim(),
-        notes: form.notes.value.trim(),
-        items: cart.map((i) => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, length: i.length })),
-      };
+        items: cartItemsPayload(),
+      });
 
       if (!payload.name || !payload.email || !payload.phone || !payload.location) {
         if (errorEl) errorEl.textContent = "Please fill in your name, email, phone and delivery location.";
@@ -370,7 +428,7 @@
       } catch (err) {
         if (errorEl) errorEl.textContent = err.message || "Something went wrong. Please try again.";
         submitBtn.disabled = false;
-        submitBtn.textContent = "Pay with Squad";
+        submitBtn.textContent = "Pay Online with Squad";
       }
     });
   }
@@ -382,6 +440,7 @@
     bindQuantitySteppers();
     bindQuickView();
     bindCheckout();
+    document.querySelectorAll("[data-product-payload]").forEach((scope) => updateWhatsAppOrderLink(scope));
 
     document.querySelector("[data-open-cart]")?.addEventListener("click", openDrawer);
     document.querySelector("[data-close-cart]")?.addEventListener("click", closeDrawer);

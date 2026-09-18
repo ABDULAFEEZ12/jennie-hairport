@@ -1,0 +1,7 @@
+{% macro product_image(image, alt, eager=False) %}
+{% if image and image != 'placeholder' %}
+<div class="product-photo"><img src="{{ image }}" alt="{{ alt }}" loading="{{ 'eager' if eager else 'lazy' }}"{% if eager %} fetchpriority="high"{% endif %}></div>
+{% else %}
+<div class="product-photo product-photo--empty" role="img" aria-label="{{ alt }}"></div>
+{% endif %}
+{% endmacro %}

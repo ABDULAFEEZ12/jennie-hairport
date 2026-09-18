@@ -1,3 +1,4 @@
+{% from "macros.html" import product_image %}
 {% set payload = {
   "id": product.id,
   "slug": product.slug,
@@ -11,12 +12,7 @@
 } %}
 <div class="product-card" data-product-payload="{{ payload|tojson|forceescape }}">
   <a href="{{ url_for('main.product_detail', slug=product.slug) }}" class="product-card__media">
-    <div class="placeholder-photo ph-{{ product.seed % 5 }}">
-      <div class="placeholder-photo__content">
-        <span class="placeholder-photo__mark">JH</span>
-        <span class="placeholder-photo__tag">Photo coming soon</span>
-      </div>
-    </div>
+    {{ product_image(product.primary_image, product.name ~ " — " ~ SITE.name) }}
 
     <div class="product-card__badges">
       {% if product.badge %}
@@ -28,6 +24,10 @@
     </div>
 
     <button type="button" class="quick-view-btn" data-quick-view-trigger>Quick View</button>
+
+    <button type="button" class="card-add-btn" data-add-to-cart aria-label="Add {{ product.name }} to bag" {{ 'disabled' if product.stock_status == 'sold-out' }}>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h2l2.4 12.2a2 2 0 002 1.8h7.2a2 2 0 002-1.6L18.4 8H6" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 9.5v4M13 11.5h4" stroke-linecap="round"/></svg>
+    </button>
   </a>
 
   <div class="product-card__body">
