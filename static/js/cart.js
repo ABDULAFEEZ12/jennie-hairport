@@ -384,7 +384,7 @@
       const lines = ["Hello Jennie_Hairport, I'd like to order:", ""];
       cart.forEach((item) => {
         const lengthPart = item.length ? ` (${item.length}")` : "";
-        lines.push(`- ${item.name}${lengthPart} x${item.quantity} — ${formatNaira(item.price * item.quantity)}`);
+        lines.push(`- ${item.name}${lengthPart} x${item.quantity}: ${formatNaira(item.price * item.quantity)}`);
       });
       lines.push("", `Total: ${formatNaira(subtotal(cart))}`, "", `Name: ${fields.name}`, `Phone: ${fields.phone}`, `Delivery Location: ${fields.location}`);
       if (fields.notes) lines.push(`Notes: ${fields.notes}`);

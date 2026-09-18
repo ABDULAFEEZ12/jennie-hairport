@@ -12,7 +12,7 @@
 } %}
 <div class="product-card" data-product-payload="{{ payload|tojson|forceescape }}">
   <a href="{{ url_for('main.product_detail', slug=product.slug) }}" class="product-card__media">
-    {{ product_image(product.primary_image, product.name ~ " — " ~ SITE.name) }}
+    {{ product_image(product.primary_image, product.name ~ ", " ~ SITE.name) }}
 
     <div class="product-card__badges">
       {% if product.badge %}

@@ -30,7 +30,7 @@
                 "Best Seller" if p.best_seller else None,
                 "New" if p.new_arrival else None,
                 "Wholesale" if p.wholesale_available else None,
-              ]|select|join(', ') or '—' }}
+              ]|select|join(', ') or '-' }}
             </td>
             <td style="text-align:right;white-space:nowrap;">
               <a href="{{ url_for('admin.edit_product', product_id=p.id) }}" style="font-weight:600;color:var(--burgundy-700);margin-right:1rem;">Edit</a>

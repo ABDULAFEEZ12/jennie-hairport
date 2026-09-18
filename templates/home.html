@@ -3,7 +3,7 @@
 
 <section class="hero-visual">
   {% if owner_photo_url %}
-    <img src="{{ owner_photo_url }}" alt="{{ SITE.name }} — premium Vietnam bone-straight hair, wigs, bundles and closures" class="hero-visual__img" loading="eager" fetchpriority="high">
+    <img src="{{ owner_photo_url }}" alt="{{ SITE.name }}, premium Vietnam bone-straight hair, wigs, bundles and closures" class="hero-visual__img" loading="eager" fetchpriority="high">
   {% else %}
     <div class="hero-visual__img hero-visual__img--empty" role="img" aria-label="{{ SITE.name }}"></div>
   {% endif %}
@@ -11,7 +11,7 @@
   <div class="hero-visual__content container">
     <p class="hero-visual__eyebrow">Affordable Luxury</p>
     <h1 class="hero-visual__heading">Premium Hair,<br>Fair Prices</h1>
-    <p class="hero-visual__sub">Vietnam bone-straight hair, wigs, bundles &amp; closures — direct sourcing, honest pricing.</p>
+    <p class="hero-visual__sub">Vietnam bone-straight hair, wigs, bundles &amp; closures, direct sourcing, honest pricing.</p>
     <div class="hero-visual__actions">
       <a href="{{ url_for('main.shop') }}" class="btn btn-primary btn-lg">Shop Now</a>
     </div>
@@ -45,7 +45,7 @@
     {% set rep = category_thumbnails.get(cat) %}
     <a href="{{ url_for('main.shop', category=cat) }}" class="category-tile reveal">
       {% if rep and rep.primary_image != 'placeholder' %}
-        {{ product_image(rep.primary_image, CATEGORY_LABELS[cat] ~ " — " ~ SITE.name) }}
+        {{ product_image(rep.primary_image, CATEGORY_LABELS[cat] ~ ", " ~ SITE.name) }}
       {% else %}
         <div class="placeholder-photo ph-{{ loop.index0 }}"></div>
       {% endif %}
@@ -127,7 +127,7 @@
     <div class="trust-card reveal">
       <span class="trust-card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M2 12h20" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg></span>
       <p>Competitive Pricing</p>
-      <p>Premium quality priced for real people — direct sourcing means fewer markups passed on to you.</p>
+      <p>Premium quality priced for real people, direct sourcing means fewer markups passed on to you.</p>
     </div>
     <div class="trust-card reveal">
       <span class="trust-card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20" stroke-linecap="round"/></svg></span>
@@ -142,7 +142,7 @@
     <div class="trust-card reveal">
       <span class="trust-card__icon"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2.003c-5.514 0-9.997 4.483-9.997 9.997 0 1.763.462 3.486 1.34 5.003l-1.42 5.19a1 1 0 001.226 1.226l5.19-1.42a9.955 9.955 0 004.661 1.13c5.514 0 9.997-4.483 9.997-9.997S17.515 2 12.001 2zm0 18.194a8.16 8.16 0 01-4.146-1.131l-.297-.176-3.079.843.822-3.001-.194-.309a8.166 8.166 0 01-1.254-4.386c0-4.522 3.679-8.201 8.15-8.201 4.471 0 8.148 3.679 8.148 8.201 0 4.523-3.679 8.16-8.15 8.16z"/></svg></span>
       <p>WhatsApp Support</p>
-      <p>Real answers from a real person — message us any time for help choosing or ordering.</p>
+      <p>Real answers from a real person, message us any time for help choosing or ordering.</p>
     </div>
   </div>
 </section>
@@ -157,7 +157,7 @@
         <p class="eyebrow" style="color:var(--gold-400);">Follow Along</p>
         <h2 class="section-heading">Follow Jennie_Hairport</h2>
       </div>
-      <p>New arrivals, styling inspiration and behind-the-scenes — follow us on Instagram and TikTok.</p>
+      <p>New arrivals, styling inspiration and behind-the-scenes, follow us on Instagram and TikTok.</p>
       <div class="social-card__actions">
         <a href="{{ SITE.instagram_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>

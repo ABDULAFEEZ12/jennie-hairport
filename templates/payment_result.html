@@ -8,13 +8,13 @@
       <svg class="icon" style="width:1.8rem;height:1.8rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <h1 class="section-heading">Payment Successful</h1>
-    <p class="mt-2 text-muted">Thank you, {{ order.customer_name }} — your order <strong>{{ order.reference }}</strong> has been confirmed.</p>
+    <p class="mt-2 text-muted">Thank you, {{ order.customer_name }}, your order <strong>{{ order.reference }}</strong> has been confirmed.</p>
   {% elif order and status == 'pending' %}
     <div class="result-icon" style="background:rgba(201,162,74,0.2);color:var(--gold-700);">
       <svg class="icon" style="width:1.8rem;height:1.8rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <h1 class="section-heading">Payment Pending</h1>
-    <p class="mt-2 text-muted">We haven't received confirmation for order <strong>{{ order.reference }}</strong> yet. If you completed payment, this usually updates within a minute — refresh, or message us on WhatsApp with your order reference.</p>
+    <p class="mt-2 text-muted">We haven't received confirmation for order <strong>{{ order.reference }}</strong> yet. If you completed payment, this usually updates within a minute. Refresh, or message us on WhatsApp with your order reference.</p>
   {% elif order %}
     <div class="result-icon failed">
       <svg class="icon" style="width:1.8rem;height:1.8rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>

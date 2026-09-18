@@ -59,7 +59,7 @@
       <div class="gallery__swipe" data-gallery-swipe>
         {% for img in product.images %}
         <div class="gallery__main" data-slide-index="{{ loop.index0 }}" data-lightbox-trigger>
-          {{ product_image(img, product.name ~ " — " ~ SITE.name, eager=loop.first) }}
+          {{ product_image(img, product.name ~ ", " ~ SITE.name, eager=loop.first) }}
           <span class="gallery__zoom-hint">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
           </span>
@@ -146,7 +146,7 @@
       </div>
       <div class="accordion__item">
         <button class="accordion__trigger"><span class="title">Payment &amp; Delivery</span><svg class="icon accordion__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <div class="accordion__panel"><p>Pay securely online via Squad (card, bank transfer or USSD), or order directly via WhatsApp and arrange a flexible payment plan with our team. Delivery is confirmed on WhatsApp based on your location — message us for current options and timelines.</p></div>
+        <div class="accordion__panel"><p>Pay securely online via Squad (card, bank transfer or USSD), or order directly via WhatsApp and arrange a flexible payment plan with our team. Delivery is confirmed on WhatsApp based on your location. Message us for current options and timelines.</p></div>
       </div>
     </div>
   </div>

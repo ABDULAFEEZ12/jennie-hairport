@@ -6,7 +6,7 @@ SITE = {
     "name": "Jennie_Hairport",
     "tagline": "Premium Hair, Fair Prices.",
     "description": (
-        "Vietnam bone-straight hair, wigs, bundles and closures — direct sourcing, "
+        "Vietnam bone-straight hair, wigs, bundles and closures, direct sourcing, "
         "honest pricing."
     ),
     "whatsapp_number": "2349034160178",
