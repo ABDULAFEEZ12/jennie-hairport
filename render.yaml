@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: jennie-hairport
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: SECRET_KEY
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: MONGO_DB_NAME
+        value: jennie_hairport
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SQUAD_SECRET_KEY
+        sync: false
+      - key: SQUAD_PUBLIC_KEY
+        sync: false
+      - key: SQUAD_ENV
+        value: sandbox
+      - key: SITE_BASE_URL
+        sync: false
