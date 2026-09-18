@@ -132,22 +132,8 @@ input:focus, textarea:focus, select:focus { border-color: var(--gold-500); }
 .icon { width: 1.1em; height: 1.1em; flex-shrink: 0; }
 
 /* ==========================================================================
-   Announcement bar + header
+   Header
    ========================================================================== */
-.announcement {
-  background: var(--burgundy-950);
-  color: var(--gold-300);
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 0.5rem 0;
-  font-size: 0.68rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-}
-.announcement__track { display: inline-flex; gap: 2.5rem; animation: marquee 30s linear infinite; padding-right: 2.5rem; }
-.announcement__track span { opacity: 0.6; }
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 .site-header {
   position: sticky;
