@@ -40,7 +40,7 @@
    intrinsic width — the classic cause of a "1fr 1fr" grid rendering wildly unequal columns
    and blowing out the page horizontally. Removing that floor everywhere we use grid/flex
    for two-up layouts keeps every one of them honestly splitting the available space. */
-.product-detail > *, .cart-layout > *, .promo__grid > *,
+.product-detail > *, .cart-layout > *,
 .contact-grid > *, .form-grid > *, .simple-hero > *, .location-card > * {
   min-width: 0;
 }
@@ -414,15 +414,6 @@ input:focus, textarea:focus, select:focus { border-color: var(--gold-500); }
 /* ==========================================================================
    Why-us / promo banners / testimonials / social / location / final CTA
    ========================================================================== */
-.promo { padding: 4rem 0; }
-.promo.is-dark { background: var(--burgundy-950); color: var(--cream-50); }
-.promo__grid { display: grid; gap: 2.5rem; align-items: center; }
-.promo__media { position: relative; border-radius: 1.75rem; overflow: hidden; aspect-ratio: 16/10; }
-@media (min-width: 900px) { .promo__grid { grid-template-columns: 1fr 1fr; gap: 3.5rem; } .promo__grid.reverse .promo__media { order: 2; } }
-.promo.is-dark h2 { color: var(--cream-50); }
-.promo.is-dark .eyebrow { color: var(--gold-400); }
-.promo.is-dark p.desc { color: rgba(248,240,227,0.8); }
-
 .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 @media (min-width: 640px) { .trust-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
 .trust-card {
