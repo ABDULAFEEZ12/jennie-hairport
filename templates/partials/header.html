@@ -1,7 +1,11 @@
 <header class="site-header">
   <div class="container site-header__inner">
     <a href="{{ url_for('main.home') }}" class="logo">
-      <span class="logo__mark">J</span>
+      {% if logo_url %}
+        <img src="{{ logo_url }}" alt="{{ SITE.name }}" class="logo__image">
+      {% else %}
+        <span class="logo__mark">J</span>
+      {% endif %}
       <span class="logo__text">Jennie<b>_</b>Hairport</span>
     </a>
 
@@ -19,9 +23,8 @@
           </div>
         </div>
       </div>
-      <a href="{{ url_for('main.payment_plans') }}">Payment Plans</a>
-      <a href="{{ url_for('main.wholesale') }}">Wholesale</a>
       <a href="{{ url_for('main.about') }}">About</a>
+      <a href="{{ url_for('main.wholesale') }}">Wholesale</a>
       <a href="{{ url_for('main.contact') }}">Contact</a>
     </nav>
 
@@ -56,9 +59,9 @@
       {% endfor %}
       <a href="{{ url_for('main.shop') }}">All Products</a>
       <p class="mobile-menu__label">&nbsp;</p>
-      <a href="{{ url_for('main.payment_plans') }}">Payment Plans</a>
-      <a href="{{ url_for('main.wholesale') }}">Wholesale</a>
       <a href="{{ url_for('main.about') }}">About</a>
+      <a href="{{ url_for('main.wholesale') }}">Wholesale</a>
+      <a href="{{ url_for('main.payment_plans') }}">Payment Plans</a>
       <a href="{{ url_for('main.contact') }}">Contact</a>
     </nav>
     <div class="mobile-menu__footer">

@@ -1,7 +1,11 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <span class="logo__text" style="color:var(--gold-300);font-style:italic;">Jennie_Hairport</span>
+      {% if logo_url %}
+        <img src="{{ logo_url }}" alt="{{ SITE.name }}" class="logo__image">
+      {% else %}
+        <span class="logo__text" style="color:var(--gold-300);font-style:italic;">Jennie_Hairport</span>
+      {% endif %}
       <p>Premium Vietnam bone straight hair, wigs, bundles and closures — made accessible without unnecessary luxury markups.</p>
       <div class="footer-socials">
         <a href="{{ SITE.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">

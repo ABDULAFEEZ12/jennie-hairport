@@ -21,12 +21,7 @@
     </div>
 
     <div class="hero__collage">
-      <div class="collage-grid">
-        <div class="collage-tile collage-tile--a"><div class="placeholder-photo ph-2"></div></div>
-        <div class="collage-tile collage-tile--b"><div class="placeholder-photo ph-4"></div></div>
-        <div class="collage-tile collage-tile--c"><div class="placeholder-photo ph-0"></div></div>
-        <div class="collage-tile collage-tile--d"><div class="placeholder-photo ph-3"></div></div>
-      </div>
+      <div class="hero__portrait"><div class="placeholder-photo ph-2"></div></div>
       <div class="hero__chip">
         <p>100% Human Hair</p>
         <p>Sourced directly from Vietnam</p>
@@ -44,6 +39,9 @@
   </div>
 </section>
 
+{% if has_products %}
+{% set shown_categories = CATEGORY_CHOICES | select("in", categories_with_products) | list %}
+{% if shown_categories %}
 <section class="section container">
   <div class="reveal">
     <div class="section-head">
@@ -55,7 +53,7 @@
     </div>
   </div>
   <div class="category-grid">
-    {% for cat in CATEGORY_CHOICES %}
+    {% for cat in shown_categories %}
     <a href="{{ url_for('main.shop', category=cat) }}" class="category-tile reveal">
       <div class="placeholder-photo ph-{{ loop.index0 }}"></div>
       <div class="category-tile__overlay"></div>
@@ -67,7 +65,9 @@
     {% endfor %}
   </div>
 </section>
+{% endif %}
 
+{% if best_sellers %}
 <section class="section section-tinted">
   <div class="container">
     <div class="reveal">
@@ -86,6 +86,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 {% if new_arrivals %}
 <section class="section container">
@@ -106,20 +107,27 @@
 </section>
 {% endif %}
 
+{% else %}
+<section class="section container">
+  <div class="empty-state reveal">
+    <p>New arrivals will appear here soon</p>
+    <p>We're preparing our first collection. Message us on WhatsApp to ask what's available right now.</p>
+    <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp mt-3">Chat With Us</a>
+  </div>
+</section>
+{% endif %}
+
+{% from "macros.html" import product_image %}
 <section class="section container why-grid">
   <div class="reveal media-frame">
-    <div class="placeholder-photo ph-1"></div>
+    {{ product_image(owner_photo_url or "placeholder", "Jennie_Hairport", eager=True) }}
   </div>
   <div class="reveal">
-    <p class="eyebrow">Why Jennie_Hairport</p>
-    <h2 class="section-heading">Luxury hair, priced honestly</h2>
-    <p class="mt-2" style="max-width:32rem;color:var(--ink-700);">We built Jennie_Hairport around one idea: premium hair shouldn't come with an unreasonable markup. Here's how we keep quality high and prices fair.</p>
-    <div class="why-grid__reasons">
-      <div><span class="n">01</span><p style="font-family:var(--font-display);font-size:1.1rem;margin-top:0.4rem;">Direct Sourcing</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">We source directly from trusted suppliers in Vietnam, cutting out layers of middlemen markup.</p></div>
-      <div><span class="n">02</span><p style="font-family:var(--font-display);font-size:1.1rem;margin-top:0.4rem;">Quality Control</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">Every batch is checked for texture, density and consistency before it reaches you.</p></div>
-      <div><span class="n">03</span><p style="font-family:var(--font-display);font-size:1.1rem;margin-top:0.4rem;">Authentic Hair</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">100% human hair that holds a style, takes colour well, and lasts with proper care.</p></div>
-      <div><span class="n">04</span><p style="font-family:var(--font-display);font-size:1.1rem;margin-top:0.4rem;">Fair, Transparent Pricing</p><p class="mt-1" style="font-size:0.9rem;color:var(--ink-700);">Premium quality priced for real people — with flexible plans when you need them.</p></div>
-    </div>
+    <p class="eyebrow">Meet Jennie_Hairport</p>
+    <h2 class="section-heading">Behind every bundle, a promise</h2>
+    <p class="mt-2" style="max-width:32rem;color:var(--ink-700);">Jennie_Hairport is a premium hair brand specialising in quality Vietnam bone-straight hair, wigs, bundles and closures — built around making luxury hair more affordable through direct sourcing, competitive pricing, flexible payment plans and wholesale deals.</p>
+    <p class="mt-2" style="max-width:32rem;color:var(--ink-700);">Our goal is simple: beautiful, authentic, long-lasting hair, without paying unnecessary luxury markups.</p>
+    <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Chat With Us</a>
   </div>
 </section>
 
@@ -149,19 +157,19 @@
 
 <section class="section container">
   <div class="reveal" style="text-align:center;max-width:36rem;margin:0 auto 2.25rem;">
-    <p class="eyebrow">Why Choose Us</p>
-    <h2 class="section-heading">Why Customers Choose Jennie_Hairport</h2>
+    <p class="eyebrow">Why Jennie_Hairport</p>
+    <h2 class="section-heading">Premium hair, honestly priced</h2>
   </div>
   <div class="trust-grid">
     <div class="trust-card reveal">
       <span class="trust-card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12l3-8h12l3 8-9 9-9-9z" stroke-linejoin="round"/></svg></span>
       <p>Vietnam-Sourced Hair</p>
-      <p>Every bundle is sourced directly from trusted suppliers in Vietnam — no unnecessary layers of resale markup.</p>
+      <p>Hair sourced directly from Vietnam, keeping quality high without unnecessary resale markups.</p>
     </div>
     <div class="trust-card reveal">
       <span class="trust-card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <p>Quality-Focused Selection</p>
-      <p>Every piece is checked for texture, density and consistency before it's listed for sale.</p>
+      <p>Authentic, Long-Lasting Hair</p>
+      <p>Beautiful, authentic hair built to last with proper care.</p>
     </div>
     <div class="trust-card reveal">
       <span class="trust-card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M2 12h20" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg></span>

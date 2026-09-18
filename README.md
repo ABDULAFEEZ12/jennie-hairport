@@ -20,9 +20,10 @@ copy .env.example .env          # then edit .env with your real values
 python run.py
 ```
 
-Visit [http://localhost:5000](http://localhost:5000). On first run, the app connects to
-MongoDB and seeds the 14 starter products automatically if the `products` collection is
-empty.
+Visit [http://localhost:5000](http://localhost:5000). The catalogue starts **empty** — no
+demo or sample products ship with this project. Add your real products through
+`/admin/products/new` (see [Managing Products](#managing-products) below). The homepage and
+shop show a clean "coming soon" state until you do.
 
 ## MongoDB Setup (required — the app will not start without this)
 
@@ -93,13 +94,21 @@ from MongoDB on every request.
 > can only be tested against a real MongoDB connection, so **do one test upload through the
 > admin panel once your real `MONGO_URI` is in place** to confirm it in your environment.
 
-## Adding the Logo
+## Adding Your Logo and Brand Photo
 
-Once you have the final logo file, upload it via the admin panel or drop it into `static/`
-(e.g. `static/logo.png`) and swap it into
-[templates/partials/header.html](templates/partials/header.html) (replace the `J`
-monogram) and [templates/partials/footer.html](templates/partials/footer.html). Use it as
-the basis for a real favicon too.
+No code changes needed — just drop the file in and reload the page.
+
+| File you add | Where it appears |
+|---|---|
+| `static/images/logo.png` (or `.svg` / `.jpg` / `.jpeg`) | Header, mobile menu, footer, and browser favicon — automatically, everywhere at once |
+| `static/images/main.jpeg` | The "Meet Jennie_Hairport" section on the homepage |
+
+Until you add `logo.png`, the header shows a simple "J" monogram instead. Until you add
+`main.jpeg`, the homepage brand-story section shows a tasteful neutral placeholder instead
+of a broken image — nothing looks unfinished either way.
+
+Recommended `main.jpeg` size: at least 1000×1250px (a 4:5 portrait crop), so it fills its
+frame sharply on large screens.
 
 ## Brand & Contact Details
 

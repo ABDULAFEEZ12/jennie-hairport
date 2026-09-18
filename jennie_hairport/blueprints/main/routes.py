@@ -1,3 +1,5 @@
+import os
+
 from flask import Blueprint, render_template, request, jsonify, abort, url_for, current_app
 
 from ... import data
@@ -14,10 +16,18 @@ def home():
     best_sellers = [p for p in all_products if p.get("best_seller")][:8]
     new_arrivals = [p for p in all_products if p.get("new_arrival")][:8]
     featured = [p for p in all_products if p.get("featured")][:8]
+    categories_with_products = {p.get("category") for p in all_products}
+
+    owner_photo_path = os.path.join(current_app.static_folder, "images", "main.jpeg")
+    owner_photo_url = url_for("static", filename="images/main.jpeg") if os.path.exists(owner_photo_path) else None
+
     return render_template(
         "home.html",
+        has_products=bool(all_products),
         best_sellers=best_sellers or featured,
         new_arrivals=new_arrivals,
+        categories_with_products=categories_with_products,
+        owner_photo_url=owner_photo_url,
     )
 
 
@@ -45,6 +55,7 @@ def shop():
         active_sort=request.args.get("sort", ""),
         active_availability=request.args.get("availability", ""),
         active_length=request.args.get("length", ""),
+        catalog_empty=not data.get_all_products(),
     )
 
 

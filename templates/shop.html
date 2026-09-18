@@ -73,6 +73,12 @@
         {% include "partials/product_card.html" %}
       {% endfor %}
     </div>
+    {% elif catalog_empty %}
+    <div class="empty-state">
+      <p>New arrivals will appear here soon</p>
+      <p>We're preparing our first collection. Message us on WhatsApp if you'd like to know what's coming.</p>
+      <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp mt-3">Chat With Us</a>
+    </div>
     {% else %}
     <div class="empty-state">
       <p>No products match these filters</p>
