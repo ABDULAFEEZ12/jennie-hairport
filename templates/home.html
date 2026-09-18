@@ -102,7 +102,6 @@
 <section class="section container">
   <div class="empty-state reveal">
     <p class="empty-state__heading">New arrivals will appear here soon</p>
-    <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp mt-3">Chat With Us</a>
   </div>
 </section>
 {% endif %}
@@ -181,7 +180,6 @@
         {{ SITE.address }}
       </p>
       <p class="mt-2" style="font-size:0.85rem;color:rgba(248,240,227,0.6);">Prefer to shop from home? Our team responds fastest on WhatsApp.</p>
-      <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg mt-3">Chat With Us</a>
     </div>
     <div class="location-card__map">
       <iframe title="Jennie_Hairport location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
@@ -198,10 +196,9 @@
   <div class="container reveal" style="max-width:34rem;">
     <p class="eyebrow" style="color:var(--gold-400);">Ready When You Are</p>
     <h2 class="section-heading" style="color:var(--cream-50);">Your next look starts here</h2>
-    <p>Browse our collections or message us directly — we're happy to help you find the right texture, length and price point.</p>
+    <p>Browse our collections and find the right texture, length and price point for you.</p>
     <div class="final-cta__actions">
       <a href="{{ url_for('main.shop') }}" class="btn btn-primary btn-lg">Shop Hair</a>
-      <a href="{{ build_whatsapp_link(general_inquiry_message()) }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg">Chat with Us</a>
     </div>
   </div>
 </section>
