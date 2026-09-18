@@ -39,10 +39,16 @@
       <a href="{{ url_for('main.shop') }}" class="hide-mobile">View all</a>
     </div>
   </div>
+  {% from "macros.html" import product_image %}
   <div class="category-grid">
     {% for cat in shown_categories %}
+    {% set rep = category_thumbnails.get(cat) %}
     <a href="{{ url_for('main.shop', category=cat) }}" class="category-tile reveal">
-      <div class="placeholder-photo ph-{{ loop.index0 }}"></div>
+      {% if rep and rep.primary_image != 'placeholder' %}
+        {{ product_image(rep.primary_image, CATEGORY_LABELS[cat] ~ " — " ~ SITE.name) }}
+      {% else %}
+        <div class="placeholder-photo ph-{{ loop.index0 }}"></div>
+      {% endif %}
       <div class="category-tile__overlay"></div>
       <div class="category-tile__label">
         <p>{{ CATEGORY_LABELS[cat] }}</p>

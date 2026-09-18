@@ -16,7 +16,19 @@ def home():
     best_sellers = [p for p in all_products if p.get("best_seller")][:8]
     new_arrivals = [p for p in all_products if p.get("new_arrival")][:8]
     featured = [p for p in all_products if p.get("featured")][:8]
-    categories_with_products = {p.get("category") for p in all_products}
+
+    # One representative product per category, for the "Shop by Category" tile photos —
+    # prefers a product that actually has a real uploaded image over one still on the
+    # branded placeholder, so a category shows a real photo as soon as any product in it has one.
+    category_thumbnails = {}
+    for p in all_products:
+        cat = p.get("category")
+        if not cat:
+            continue
+        current = category_thumbnails.get(cat)
+        if current is None or (current.primary_image == "placeholder" and p.primary_image != "placeholder"):
+            category_thumbnails[cat] = p
+    categories_with_products = set(category_thumbnails.keys())
 
     owner_photo_path = os.path.join(current_app.static_folder, "images", "main.jpeg")
     owner_photo_url = url_for("static", filename="images/main.jpeg") if os.path.exists(owner_photo_path) else None
@@ -27,6 +39,7 @@ def home():
         best_sellers=best_sellers or featured,
         new_arrivals=new_arrivals,
         categories_with_products=categories_with_products,
+        category_thumbnails=category_thumbnails,
         owner_photo_url=owner_photo_url,
     )
 
