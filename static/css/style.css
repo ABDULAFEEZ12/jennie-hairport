@@ -609,9 +609,6 @@ input:focus, textarea:focus, select:focus { border-color: var(--gold-500); }
 .summary-card form { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.25rem; }
 .form-error { color: var(--burgundy-700); font-size: 0.85rem; }
 .form-note { text-align: center; font-size: 0.75rem; color: var(--ink-500); }
-.checkout-divider { display: flex; align-items: center; gap: 0.75rem; margin: 0.25rem 0; color: var(--ink-500); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
-.checkout-divider::before, .checkout-divider::after { content: ""; flex: 1; height: 1px; background: var(--cream-200); }
-
 /* ==========================================================================
    Floating WhatsApp + cart drawer
    ========================================================================== */

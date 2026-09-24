@@ -353,7 +353,6 @@
     if (!form) return;
     const errorEl = document.querySelector("[data-checkout-error]");
     const submitBtn = form.querySelector("[data-checkout-submit]");
-    const waBtn = form.querySelector("[data-order-whatsapp-submit]");
 
     function readCommonFields() {
       return {
@@ -368,31 +367,6 @@
       const cart = getCart();
       return cart.map((i) => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, length: i.length }));
     }
-
-    // Order via WhatsApp — no online payment, no email required.
-    waBtn?.addEventListener("click", () => {
-      const cart = getCart();
-      if (cart.length === 0) return;
-      const fields = readCommonFields();
-
-      if (!fields.name || !fields.phone || !fields.location) {
-        if (errorEl) errorEl.textContent = "Please fill in your name, phone and delivery location.";
-        return;
-      }
-      if (errorEl) errorEl.textContent = "";
-
-      const lines = ["Hello Jennie_Hairport, I'd like to order:", ""];
-      cart.forEach((item) => {
-        const lengthPart = item.length ? ` (${item.length}")` : "";
-        lines.push(`- ${item.name}${lengthPart} x${item.quantity}: ${formatNaira(item.price * item.quantity)}`);
-      });
-      lines.push("", `Total: ${formatNaira(subtotal(cart))}`, "", `Name: ${fields.name}`, `Phone: ${fields.phone}`, `Delivery Location: ${fields.location}`);
-      if (fields.notes) lines.push(`Notes: ${fields.notes}`);
-      lines.push("", "Please confirm availability and delivery details.");
-
-      window.open("https://wa.me/2349034160178?text=" + encodeURIComponent(lines.join("\n")), "_blank");
-      clearCart();
-    });
 
     // Pay Online with Squad — requires email for the receipt/payment record.
     form.addEventListener("submit", async (e) => {
