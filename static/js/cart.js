@@ -246,7 +246,6 @@
           const scope = wrap.closest("[data-product-payload]");
           const target = scope?.querySelector("[data-selected-length]");
           if (target) target.dataset.selectedLength = btn.dataset.length;
-          if (scope) updateWhatsAppOrderLink(scope);
         });
       });
     });
@@ -256,37 +255,13 @@
   function bindQuantitySteppers() {
     document.querySelectorAll("[data-qty-stepper]").forEach((wrap) => {
       const display = wrap.querySelector("[data-selected-qty]");
-      const scope = wrap.closest("[data-product-payload]");
       wrap.querySelector("[data-qty-stepper-down]")?.addEventListener("click", () => {
         display.textContent = String(Math.max(1, Number(display.textContent) - 1));
-        if (scope) updateWhatsAppOrderLink(scope);
       });
       wrap.querySelector("[data-qty-stepper-up]")?.addEventListener("click", () => {
         display.textContent = String(Number(display.textContent) + 1);
-        if (scope) updateWhatsAppOrderLink(scope);
       });
     });
-  }
-
-  // Builds the "Order via WhatsApp" link with the live product name, selected
-  // length, quantity and total amount baked into the message text.
-  function updateWhatsAppOrderLink(scope) {
-    const link = scope.querySelector("[data-whatsapp-order-link]");
-    if (!link || !scope.dataset.productPayload) return;
-    const product = JSON.parse(scope.dataset.productPayload);
-    const lengthEl = scope.querySelector("[data-selected-length]");
-    const qtyEl = scope.querySelector("[data-selected-qty]");
-    const length = lengthEl?.dataset.selectedLength;
-    const quantity = qtyEl ? Number(qtyEl.textContent) || 1 : 1;
-    const amount = product.price * quantity;
-
-    const lines = ["Hello Jennie_Hairport, I'd like to order:", "", `Product: ${product.name}`];
-    if (length) lines.push(`Length: ${length} inches`);
-    lines.push(`Quantity: ${quantity}`);
-    lines.push(`Amount: ${formatNaira(amount)}`);
-    lines.push("", "Please confirm availability and delivery details.");
-
-    link.href = "https://wa.me/2349034160178?text=" + encodeURIComponent(lines.join("\n"));
   }
 
   // ---- Quick view modal ----
@@ -344,7 +319,6 @@
 
     bindLengthSelectors();
     bindQuantitySteppers();
-    updateWhatsAppOrderLink(payloadHost);
   }
 
   // ---- Checkout ----
@@ -414,7 +388,6 @@
     bindQuantitySteppers();
     bindQuickView();
     bindCheckout();
-    document.querySelectorAll("[data-product-payload]").forEach((scope) => updateWhatsAppOrderLink(scope));
 
     document.querySelector("[data-open-cart]")?.addEventListener("click", openDrawer);
     document.querySelector("[data-close-cart]")?.addEventListener("click", closeDrawer);
